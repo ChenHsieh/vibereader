@@ -62,6 +62,30 @@ if selected:
     )
     st.table(persona_df)
 
-    st.markdown("### ✍️ Poetic Response")
-    poem = generate_poetic_response(selected, persona)
-    st.markdown(poem)
+    st.markdown("### ✍️ Poetic Responses")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("#### With Persona")
+        poem = generate_poetic_response(selected, persona)
+        st.markdown(poem)
+
+    with col2:
+        st.markdown("#### Baseline (No Persona)")
+        baseline_prompt = (
+            f"The headline is:\n\"{selected}\"\n\n"
+            "React to this news headline with a short, surreal poem (3–5 lines). "
+            "Do not assume any fictional persona or internal backstory."
+        )
+        try:
+            baseline_response = client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": "You are a poetic AI responding to news."},
+                    {"role": "user", "content": baseline_prompt}
+                ]
+            )
+            st.markdown(baseline_response.choices[0].message.content)
+        except Exception as e:
+            st.markdown(f"(error: {e})")
