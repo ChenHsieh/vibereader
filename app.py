@@ -13,7 +13,7 @@ if not client.api_key:
 def generate_poetic_response(headline: str, persona: dict) -> str:
     persona_summary = (
         f"A {persona['role']} currently in a state of {persona['mood']}, "
-        f"motivated {persona['motivation']}, dealing with {persona['crisis']}, "
+        f"driven by {persona['motivation']}, currently facing {persona['crisis']}, "
         f"who sees the world as '{persona['worldview']}', and holds a {persona['moral_alignment']} philosophy. "
         f"Attachment style: {persona['attachment_style']}."
     )
@@ -39,15 +39,21 @@ def generate_poetic_response(headline: str, persona: dict) -> str:
 
 st.title("VibeReader: Emotional News Persona Generator")
 
+st.markdown(
+    "Welcome to **VibeReader** — where current events meet imagined minds.\n\n"
+    "Choose a headline below, and a unique fictional persona will react with a short surreal poem.\n"
+    "Click 🔄 *Refresh Persona* to explore how different characters interpret the same news."
+)
+
 headlines = fetch_guardian_headlines()
-st.subheader("Top Headlines")
+st.markdown("### 📰 Select a Headline")
 selected = st.radio("Pick a headline to process:", headlines)
 
 if selected:
     st.markdown(f"**Selected Headline**: {selected}")
 
     persona = simulate_persona()
-    st.markdown("### 🎭 Persona")
+    st.markdown("### 👤 Generated Persona")
     if st.button("🔄 Refresh Persona"):
         persona = simulate_persona()
     persona_df = pd.DataFrame(
@@ -56,6 +62,6 @@ if selected:
     )
     st.table(persona_df)
 
-    st.markdown("### 📝 Poetic Reaction")
+    st.markdown("### ✍️ Poetic Response")
     poem = generate_poetic_response(selected, persona)
     st.markdown(poem)
