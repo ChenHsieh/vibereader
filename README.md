@@ -4,8 +4,8 @@
 
 It demonstrates:
 - Headline harvesting from RSS feeds (e.g., The Guardian)
-- LLM-based phrase extraction
-- Persona simulation based on mood, role, and fictional crisis
+- Persona simulation based on mood, role, and fictional crisis...
+- LLM-based poetic response generation
 - Streamlit app to display results
 
 The ultimate goal is to serve as a creative writing or narrative seed generator.
